@@ -111,44 +111,14 @@ pipeline {
 ![](/portfolio-app-img/job-configuration.png)
 
 2. Successful Build and Console output
+![](/portfolio-app-img/build-job-success.png)
 
 3. Browser view of deployed portfolio site
+![](/portfolio-app-img/browser-output.png)
+
+4. Files stored on app-server
+![](/portfolio-app-img/server-output.png)
 
 ---
 
-## Automating Builds with GitHub Webhooks
 
-You can make Jenkins automatically deploy updates when you push to your GitHub repo.
-
-**Step 1 — Install GitHub Plugin in Jenkins**
-Required for webhook functionality.
-
-**Step 2 — Enable GitHub Hook Trigger**
-
-* Go to your Jenkins job → Configure
-* Under **Build Triggers**, check:
-
-  * `GitHub hook trigger for GITScm polling`
-
-**Step 3 — Add Webhook in GitHub**
-
-* Go to your portfolio repo → **Settings** → **Webhooks** → **Add webhook**
-* Payload URL:
-
-```
-http://<JENKINS_SERVER_IP>:8080/github-webhook/
-```
-
-* Content type: `application/json`
-* Events: **Just the push event**
-* Save
-
-Now, your portfolio site will automatically update on every code push.
-
----
-
-## Access Your Website
-
-```
-http://<APACHE_SERVER_IP>/
-```
