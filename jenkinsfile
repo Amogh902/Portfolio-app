@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+
+    environment {
+        SSH_CRED = 'portfolio-app-credentials'               // Jenkins credential ID
+        SERVER_IP = '3.85.87.193'                // Your Deploy EC2 IP
+        REMOTE_USER = 'ubuntu'
+        WEB_DIR = '/var/www/html/'
+    }
+
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git url: 'https://github.com/Amogh902/Portfolio-app.git', branch: 'main'
+            }
+        }
+
+        stage('Deploy to Apache Server') {
+            steps {
+                sshagent(credentials: ["${SSH_CRED}"]) {
+                    sh '''
+                        echo "Cleaning old files on server..."
+                        ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${SERVER_IP} "sudo rm -rf ${WEB_DIR}/*"
+
+                        echo "Uploading all files from Jenkins workspace..."
+                        scp -r * ${REMOTE_USER}@${SERVER_IP}:/tmp/
+
+                        echo "Deploying files to Apache directory..."
+                        ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${SERVER_IP} "sudo cp -r /tmp/* ${WEB_DIR}/"
+                    '''
+                }
+            }
+        }
+    }
+}
