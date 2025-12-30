@@ -1101,3 +1101,27 @@ a:focus {
     color: #ffffff;
 }
 
+
+
+
+
+
+/* Certification layout */
+.cert-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Left text block */
+.cert-text {
+    flex: 1;
+}
+
+/* Right badge */
+.cert-badge img {
+    height: 150px;   /* adjust if needed */
+    width: auto;
+    object-fit: contain;
+}
